@@ -2,7 +2,21 @@
 
 There will be no input/output latches like in the previous version
 
+List of outputs from timing logic (excluding bus):
+
+* Pre-adder latch CLK
+* Post-adder latch CLK
+* Post-adder latch OE
+* Pre-adder address A OE to bus
+* Pre-adder address B OE to bus
+* Address A [bus (1) / adder (0)] select & Bus -> A OE
+* Address B [bus (1) / adder (0)] select & Bus -> B OE
+* Memory write (write happens on WE disable-edge)
+* Memory read
+
 ### TX (Read / Read ++addr)
+
+Plot sources to be pasted into <a href="wavedrom.com/editor.html">Wavedrom</a>.
 
 ```
 {
@@ -60,7 +74,7 @@ There will be no input/output latches like in the previous version
     {name: "TX ready (Write addr A / B)", wave: "lh.l."},
     {},
     {name: "Pre-adder latch CLK", wave: "l.h.l"},
-    {name: "Address A/B select / A/B bus-read CLK", wave: "lh.l."}
+    {name: "Address A/B select & Bus -> A/B OE", wave: "lh.l."}
   ]
 }
 ```

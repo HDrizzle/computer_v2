@@ -2,6 +2,10 @@
 
 https://lucid.app/lucidchart/32ad8e9d-d2d1-47b0-a4b6-105ece57e4e0/edit?viewport_loc=-87%2C-294%2C1954%2C1174%2C0_0&invitationId=inv_57dea9bb-0ba1-45a8-8f8a-2a729ad6f8bd
 
+The fastest possible cycle time is 2 clock cycles if:
+* Instruction is loaded from flash
+* Some flow-control instructions and fastest possible move are run
+
 ## Startup
 
 1. Started by the `Set` input from the startup controller going high, which will disable the GOTO latches OE, post-adder latch OE, and the call stack OE. Pullup resistors will set the inputs to the pre-adder latch to 0xFFFF so when it is incremented it starts at instruction 0x0000.
@@ -9,6 +13,8 @@ https://lucid.app/lucidchart/32ad8e9d-d2d1-47b0-a4b6-105ece57e4e0/edit?viewport_
 3. Begin regular cycle
 
 ## Cycle, PC incrementation may be done in parallel
+
+Plot sources to be pasted into <a href="wavedrom.com/editor.html">Wavedrom</a>.
 
 There will be an SR latch `Instruction done` which will be read on +edge to continue with `Begin instruction sequence` for the next instruction.
 
@@ -20,10 +26,10 @@ The short clock pulses are incase of instructions that take one clock cycle and 
 	{name: "CLK", wave: "lhlhlhl"},
 	{},
     {name: "Load Instruction", wave: "lh.l..."},
-	{name: "Post-adder latch OE", wave: "lh.l..."},
+	{name: "Post-adder latch CLK & OE", wave: "lh.l..."},
 	{name: "Flash read (PC MSB=0)", wave: "lh.l..."},
-    {name: "Instruction pre-latches CLK", wave: "l.hl...", node: "..a"},
-	{name: "Instruction post-latch CLK", wave: "l..hl..", node: "...b"},
+    {name: "Instruction pre-latches CLK", wave: "l.h.l..", node: "..a"},
+	{name: "Instruction post-latch CLK", wave: "l..h.l.", node: "...b"},
 	{name: "Begin instruction sequence", wave: "l..h.l."},
 	{name: "Instruction done", wave: "l.hl..."}
   ],
@@ -38,11 +44,11 @@ Load from RAM
 	{name: "CLK", wave: "lhlhlhlh"},
 	{},
     {name: "Load Instruction", wave: "lh.l...."},
-	{name: "Post-adder latch OE", wave: "lh...l.."},
+	{name: "Post-adder latch CLK & OE", wave: "lh...l.."},
 	{name: "RAM read (PC MSB=1)", wave: "lh...l.."},
 	{name: "RAM LSB", wave: "l..h.l.."},
-	{name: "Instruction pre-latch A CLK", wave: "l.hl...."},
-	{name: "Instruction pre-latch B CLK", wave: "l...hl..", node: "....a"},
+	{name: "Instruction pre-latch A CLK", wave: "l.h.l..."},
+	{name: "Instruction pre-latch B CLK", wave: "l...h.l.", node: "....a"},
 	{name: "Instruction post-latch CLK", wave: "l....h.l", node: ".....b"},
 	{name: "Begin instruction sequence", wave: "l....h.l"},
 	{name: "Instruction done", wave: "l...hl.."}
@@ -53,6 +59,23 @@ Load from RAM
 
 ## Non-control-flow parallel instruction loading
 
+Non delayed
+```
+{
+  signal: [
+	{name: "CLK", wave: "lhlhlh"},
+	{},
+	{name: "Begin instruction sequence (non-flow-ctrl)", wave: "lh.l.."},
+	{name: "Post-adder latch OE", wave: "lh.l.."},
+	{name: "Pre-adder latch CLK", wave: "l.h.l."},
+    {name: "Instruction load possible", wave: "h....."},
+    {name: "Load Instruction", wave: "l..h.l"}
+  ],
+	edge: []
+}
+```
+
+Delayed due to GPRAM usage
 ```
 {
   signal: [
@@ -61,7 +84,6 @@ Load from RAM
 	{name: "Begin instruction sequence (non-flow-ctrl)", wave: "lh.l...."},
 	{name: "Post-adder latch OE", wave: "lh.l...."},
 	{name: "Pre-adder latch CLK", wave: "l.h.l..."},
-	{name: "Post-adder latch CLK", wave: "l..h.l.."},
     {name: "Instruction load possible", wave: "l...h..."},
     {name: "Load Instruction", wave: "l....h.l"}
   ],
