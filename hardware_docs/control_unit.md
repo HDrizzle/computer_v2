@@ -38,7 +38,7 @@ Load from RAM
 	{name: "CLK", wave: "lhlhlhlh"},
 	{},
     {name: "Load Instruction", wave: "lh.l...."},
-	{name: "Post-adder latch OE", wave: "lh.l...."},
+	{name: "Post-adder latch OE", wave: "lh...l.."},
 	{name: "RAM read (PC MSB=1)", wave: "lh...l.."},
 	{name: "RAM LSB", wave: "l..h.l.."},
 	{name: "Instruction pre-latch A CLK", wave: "l.hl...."},
@@ -51,11 +51,48 @@ Load from RAM
 }
 ```
 
+## Non-control-flow parallel instruction loading
+
+```
+{
+  signal: [
+	{name: "CLK", wave: "lhlhlhlh"},
+	{},
+	{name: "Begin instruction sequence (non-flow-ctrl)", wave: "lh.l...."},
+	{name: "Post-adder latch OE", wave: "lh.l...."},
+	{name: "Pre-adder latch CLK", wave: "l.h.l..."},
+	{name: "Post-adder latch CLK", wave: "l..h.l.."},
+    {name: "Instruction load possible", wave: "l...h..."},
+    {name: "Load Instruction", wave: "l....h.l"}
+  ],
+	edge: []
+}
+```
+
 ## Instruction sequences
 
 ### MOVE & WRITE
 
 The data source and destination will have their own sequences
+
+Fastest possible case
+```
+{
+  signal: [
+    {name: "CLK", wave: "lhlh"},
+	{},
+	{name: "Begin instruction sequence (MOVE/WRITE)", wave: "lh.l"},
+	{},
+    {name: "Bus TX", wave: "lh.l"},
+	{name: "TX ready / OE", wave: "lh.l"},
+	{name: "RX not ready", wave: "l..."},
+	{name: "Bus save CLK", wave: "l..."},
+	{name: "Bus save OE", wave: "l..."},
+	{name: "Instruction done", wave: "l.h."}
+  ],
+  edge: []
+}
+```
 
 RX Ready case
 ```
