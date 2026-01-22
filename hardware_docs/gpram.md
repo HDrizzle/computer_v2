@@ -21,14 +21,14 @@ Plot sources to be pasted into <a href="wavedrom.com/editor.html">Wavedrom</a>.
 ```
 {
   signal: [
-    {name: "CLK", wave: "lhlhlh"},
+    {name: "CLK", wave: "lhlhlhl"},
 	{},
-	{name: "TX (Read / Read ++addr)", wave: "lh.l.."},
-	{name: "TX ready / OE", wave: "lh.l.."},
+	{name: "TX (Read / Read ++addr)", wave: "lh.l..."},
+	{name: "TX ready / OE", wave: "lh..l.."},
     {},
-    {name: "Post-adder latch CLK", wave: "l.h.l."},
-    {name: "Pre-adder latch CLK", wave: "l..2.l", data: ["++addr"]},
-    {name: "Memory read", wave: "lh.l.."}
+    {name: "Post-adder latch CLK", wave: "l.h.l.."},
+    {name: "Pre-adder latch CLK", wave: "l...2.l", data: ["++addr"]},
+    {name: "Memory read", wave: "lh..l.."}
   ]
 }
 ```
@@ -38,12 +38,12 @@ Plot sources to be pasted into <a href="wavedrom.com/editor.html">Wavedrom</a>.
 ```
 {
   signal: [
-    {name: "CLK", wave: "lhlh"},
+    {name: "CLK", wave: "lhlhl"},
 	{},
-    {name: "TX (Read addr A / B)", wave: "lh.l"},
-	{name: "TX ready / OE", wave: "lh.l"},
+    {name: "TX (Read addr A / B)", wave: "lh.l."},
+	{name: "TX ready / OE", wave: "lh..l"},
     {},
-    {name: "Pre-adder address A/B OE to bus", wave: "lh.l"}
+    {name: "Pre-adder address A/B OE to bus", wave: "lh..l"}
   ]
 }
 ```

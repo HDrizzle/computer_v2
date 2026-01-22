@@ -11,15 +11,15 @@ Plot sources to be pasted into <a href="wavedrom.com/editor.html">Wavedrom</a>.
 ```
 {
   signal: [
-    {name: "CLK", wave: "lhlhlh"},
+    {name: "CLK", wave: "lhlhlhl"},
 	{},
-    {name: "TX (Pop)", wave: "lh.l.."},
-	{name: "TX ready / OE", wave: "lh.l.."},
+    {name: "TX (Pop)", wave: "lh.l..."},
+	{name: "TX ready / OE", wave: "lh..l.."},
     {},
-    {name: "Pre-adder latch CLK", wave: "lh.l.."},
-    {name: "Memory output enable", wave: "lh.l.."},
-    {name: "Post-adder latch CLK", wave: "l..h.l"},
-    {name: "Pointer ++(0) / -- (1)", wave: "l.h.l."}
+    {name: "Pre-adder latch CLK", wave: "lh.l..."},
+    {name: "Memory output enable", wave: "lh..l.."},
+    {name: "Post-adder latch CLK", wave: "l...h.l"},
+    {name: "Pointer ++(0) / -- (1)", wave: "l..h.l."}
   ]
 }
 ```
@@ -29,16 +29,16 @@ Plot sources to be pasted into <a href="wavedrom.com/editor.html">Wavedrom</a>.
 ```
 {
   signal: [
-    {name: "CLK", wave: "lhlhlh"},
+    {name: "CLK", wave: "lhlhlhl"},
 	{},
-	{name: "TX ready / OE (Push)", wave: "lh.l.."},
-	{name: "RX not ready", wave: "lh.l.."},
-	{name: "Bus save OE", wave: "l..h.l"},
+	{name: "TX ready / OE (Push)", wave: "lh..l.."},
+	{name: "RX not ready", wave: "lh.l..."},
+	{name: "Bus save OE", wave: "l..h..l"},
     {},
-    {name: "Pre-adder latch CLK", wave: "lh.l.."},
-    {name: "Post-adder latch CLK", wave: "l.h.l."},
-    {name: "Memory write enable", wave: "l..hl."},
-    {name: "Pointer ++(0) / -- (1)", wave: "l....."}
+    {name: "Pre-adder latch CLK", wave: "lh.l..."},
+    {name: "Post-adder latch CLK", wave: "l.h.l.."},
+    {name: "Memory write enable", wave: "l...hl."},
+    {name: "Pointer ++(0) / -- (1)", wave: "l......"}
   ]
 }
 ```
@@ -48,12 +48,12 @@ Plot sources to be pasted into <a href="wavedrom.com/editor.html">Wavedrom</a>.
 ```
 {
   signal: [
-    {name: "CLK", wave: "lhlh"},
+    {name: "CLK", wave: "lhlhl"},
 	{},
-	{name: "TX ready / OE (Offset write)", wave: "lh.l"},
+	{name: "TX ready / OE (Offset write)", wave: "lh..l"},
     {},
-    {name: "Memory write enable", wave: "lhl."},
-    {name: "ToS (0) / Offset (1) select", wave: "lh.l"}
+    {name: "Memory write enable", wave: "l.hl."},
+    {name: "ToS (0) / Offset (1) select", wave: "lh..l"}
   ]
 }
 ```
@@ -63,30 +63,28 @@ Plot sources to be pasted into <a href="wavedrom.com/editor.html">Wavedrom</a>.
 ```
 {
   signal: [
-    {name: "CLK", wave: "lhlh"},
+    {name: "CLK", wave: "lhlhlhl"},
 	{},
-    {name: "TX (Offset read)", wave: "lh.l"},
-	{name: "TX ready / OE", wave: "lh.l"},
+    {name: "TX ready / OE (Write / Write ++addr)", wave: "lh..l.."},
     {},
-    {name: "Memory read enable", wave: "lh.l"},
-    {name: "ToS (0) / Offset (1) select", wave: "lh.l"}
+    {name: "Post-adder latch CLK", wave: "l..h.l."},
+    {name: "Pre-adder latch CLK", wave: "l...2.l", data: ["++addr"]},
+    {name: "Memory write", wave: "l.hl..."}
   ]
 }
 ```
 
-### Set stack offset (RX) (TODO)
+### Set stack offset (RX)
 
 ```
 {
   signal: [
-    {name: "CLK", wave: "lhlhlhlh"},
+    {name: "CLK", wave: "lhlhl"},
 	{},
-    {name: "Read (Set stack offset)", wave: "l.h.l..."},
-    {name: "Write", wave: "lh...l.."},
-    {name: "Read ready", wave: "l.h.l..."},
+    {name: "TX ready / OE (Write addr A / B)", wave: "lh..l"},
     {},
-    {name: "Main bus", wave: "x.2.x...", data: ["data"]},
-    {name: "Offset latch clock", wave: "l..pl..."}
+    {name: "Pre-adder latch CLK", wave: "l.h.l"},
+    {name: "Address A/B select & Bus -> A/B OE", wave: "lh.l."}
   ]
 }
 ```
